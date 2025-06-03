@@ -244,7 +244,7 @@ app.get("/listaUsuarios", verificarAutenticacao, (req, res) => {
                     <tbody>${tabela}</tbody>
                 </table>
                 <a href="/cadastroUsuario" class="btn btn-secondary">Novo Cadastro</a>
-                <a href="/" class="btn btn-primary ms-2">Voltar ao Dashboard</a>
+                <a href="/" class="btn btn-primary ms-2">Menu</a>
             </div>
         </body>
         </html>
@@ -268,12 +268,32 @@ app.get("/cadastroProduto", verificarAutenticacao, (req, res) => {
                 <h3>Cadastro de Produtos</h3>
                 <form method="POST" action="/cadastroProduto" novalidate>
                     <div class="mb-3">
-                        <label class="form-label">Nome do Produto</label>
-                        <input type="text" name="nome" class="form-control bg-dark text-light border-light" placeholder="Nome do produto" required>
+                        <label class="form-label">Código de barras</label>
+                        <input type="text" name="codigoBarras" class="form-control bg-dark text-light border-light" placeholder="Código de barras" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Preço</label>
-                        <input type="number" step="0.01" name="preco" class="form-control bg-dark text-light border-light" placeholder="Preço em R$" required>
+                        <label class="form-label">Descrição do produto</label>
+                        <textarea name="descricao" class="form-control bg-dark text-light border-light" placeholder="Descrição do produto" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Preço de custo</label>
+                        <input type="number" step="0.01" name="precoCusto" class="form-control bg-dark text-light border-light" placeholder="Preço de custo em R$" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Preço de venda</label>
+                        <input type="number" step="0.01" name="precoVenda" class="form-control bg-dark text-light border-light" placeholder="Preço de venda em R$" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Data de validade</label>
+                        <input type="date" name="dataValidade" class="form-control bg-dark text-light border-light" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Quantidade em estoque</label>
+                        <input type="number" name="quantidadeEstoque" class="form-control bg-dark text-light border-light" placeholder="Quantidade em estoque" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nome do fabricante</label>
+                        <input type="text" name="fabricante" class="form-control bg-dark text-light border-light" placeholder="Nome do fabricante" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Cadastrar Produto</button>
                 </form>
@@ -284,9 +304,34 @@ app.get("/cadastroProduto", verificarAutenticacao, (req, res) => {
 });
 
 app.post("/cadastroProduto", verificarAutenticacao, (req, res) => {
-    const { nome, preco } = req.body;
-    if (nome && preco) {
-        listaProdutos.push({ nome, preco: parseFloat(preco).toFixed(2) });
+    const {
+        codigoBarras,
+        descricao,
+        precoCusto,
+        precoVenda,
+        dataValidade,
+        quantidadeEstoque,
+        fabricante
+    } = req.body;
+
+    if (
+        codigoBarras &&
+        descricao &&
+        precoCusto &&
+        precoVenda &&
+        dataValidade &&
+        quantidadeEstoque &&
+        fabricante
+    ) {
+        listaProdutos.push({
+            codigoBarras,
+            descricao,
+            precoCusto: parseFloat(precoCusto).toFixed(2),
+            precoVenda: parseFloat(precoVenda).toFixed(2),
+            dataValidade,
+            quantidadeEstoque: parseInt(quantidadeEstoque),
+            fabricante
+        });
         res.redirect("/listaProdutos");
     } else {
         res.send(`
@@ -307,7 +352,18 @@ app.post("/cadastroProduto", verificarAutenticacao, (req, res) => {
 });
 
 app.get("/listaProdutos", verificarAutenticacao, (req, res) => {
-    let tabela = listaProdutos.map(p => `<tr><td>${p.nome}</td><td>R$ ${p.preco}</td></tr>`).join("");
+    let tabela = listaProdutos.map(p => `
+        <tr>
+            <td>${p.codigoBarras}</td>
+            <td>${p.descricao}</td>
+            <td>R$ ${p.precoCusto}</td>
+            <td>R$ ${p.precoVenda}</td>
+            <td>${p.dataValidade}</td>
+            <td>${p.quantidadeEstoque}</td>
+            <td>${p.fabricante}</td>
+        </tr>
+    `).join("");
+
     res.send(`
         <html lang="pt-br">
         <head>
@@ -319,17 +375,28 @@ app.get("/listaProdutos", verificarAutenticacao, (req, res) => {
         <body>
             <div class="container mt-4">
                 <h3>Produtos Cadastrados</h3>
-                <table class="table table-dark table-striped">
-                    <thead><tr><th>Nome</th><th>Preço</th></tr></thead>
+                <table class="table table-dark table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Código de barras</th>
+                            <th>Descrição</th>
+                            <th>Preço de custo</th>
+                            <th>Preço de venda</th>
+                            <th>Data de validade</th>
+                            <th>Qtd em estoque</th>
+                            <th>Fabricante</th>
+                        </tr>
+                    </thead>
                     <tbody>${tabela}</tbody>
                 </table>
                 <a href="/cadastroProduto" class="btn btn-secondary">Novo Produto</a>
-                <a href="/" class="btn btn-primary ms-2">Voltar ao Dashboard</a>
+                <a href="/" class="btn btn-primary ms-2">Menu</a>
             </div>
         </body>
         </html>
     `);
 });
+
 
 app.listen(port, host, () => {
     console.log(`Servidor rodando em http://localhost:${port}`);
