@@ -1,0 +1,19 @@
+{
+  "name": "4-trabalho-do-ppi",
+  "version": "1.0.0",
+  "description": "node com cookies",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PauloFernandoVb/4-trabalho-de-PPI.git"
+  },
+  "author": "paulo fernando",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PauloFernandoVb/4-trabalho-de-PPI/issues"
+  },
+  "homepage": "https://github.com/PauloFernandoVb/4-trabalho-de-PPI#readme"
+}
