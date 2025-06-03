@@ -5,7 +5,7 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 
 const host = "0.0.0.0";
-const port = 3000;
+const port = 5000;
 const app = express();
 
 let listaUsuarios = [];

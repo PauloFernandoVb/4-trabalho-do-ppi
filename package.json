@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "description": "node com cookies",
   "main": "index.js",
+  "type":"module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/PauloFernandoVb/4-trabalho-de-PPI/issues"
   },
-  "homepage": "https://github.com/PauloFernandoVb/4-trabalho-de-PPI#readme"
+  "homepage": "https://github.com/PauloFernandoVb/4-trabalho-de-PPI#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
 }
