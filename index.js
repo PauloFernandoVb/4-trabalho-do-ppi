@@ -1,5 +1,3 @@
-/* Versão modificada com pequenas melhorias visuais e incrementos funcionais */
-
 import express from "express";
 import session from "express-session";
 import cookieParser from "cookie-parser";
